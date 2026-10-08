@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>App Check — Campus Customs Shop + Chatbot</title>
+    <style>
+      :root {
+        --blue: #00356b;
+        --blue-deep: #001f40;
+        --silver: #c5ccd6;
+        --ink: #18212f;
+        --muted: #5d6779;
+        --green: #1f7a4a;
+        --red: #b3261e;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: 'Helvetica Neue', Arial, system-ui, sans-serif;
+        color: var(--ink);
+        background: #f6f8fb;
+        line-height: 1.55;
+      }
+      header {
+        background: linear-gradient(160deg, var(--blue), var(--blue-deep));
+        color: #fff;
+        padding: 2.2rem 1.5rem 1.8rem;
+        border-bottom: 4px solid var(--silver);
+      }
+      header h1 {
+        margin: 0 0 0.4rem;
+        font-size: 2rem;
+        letter-spacing: 0.02em;
+      }
+      header p {
+        margin: 0.2rem 0;
+        color: #d6e2f1;
+      }
+      main {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 1.5rem;
+      }
+      nav.toc {
+        background: #fff;
+        border: 1px solid var(--silver);
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+        margin-bottom: 2rem;
+      }
+      nav.toc ol {
+        margin: 0.4rem 0 0;
+      }
+      section.check {
+        background: #fff;
+        border: 1px solid var(--silver);
+        border-top: 6px solid var(--blue);
+        border-radius: 14px;
+        padding: 1.4rem 1.5rem 1.6rem;
+        margin-bottom: 2.2rem;
+        box-shadow: 0 8px 24px rgba(0, 31, 64, 0.06);
+      }
+      section.check h2 {
+        margin: 0 0 0.3rem;
+        color: var(--blue-deep);
+      }
+      .result {
+        display: inline-block;
+        margin: 0.2rem 0 0.8rem;
+        padding: 0.2rem 0.7rem;
+        border-radius: 999px;
+        background: #e8f6ee;
+        color: var(--green);
+        font-weight: 700;
+        font-size: 0.85rem;
+      }
+      figure {
+        margin: 1rem 0 1.4rem;
+      }
+      figure img {
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--silver);
+        box-shadow: 0 4px 16px rgba(0, 31, 64, 0.12);
+        display: block;
+      }
+      figcaption {
+        margin-top: 0.6rem;
+        font-size: 0.98rem;
+      }
+      figcaption strong {
+        color: var(--blue-deep);
+      }
+      table {
+        border-collapse: collapse;
+        margin: 0.6rem 0 0.4rem;
+        font-size: 0.92rem;
+      }
+      th,
+      td {
+        border: 1px solid var(--silver);
+        padding: 0.35rem 0.7rem;
+        text-align: left;
+      }
+      th {
+        background: var(--blue);
+        color: #fff;
+      }
+      td.out {
+        color: var(--red);
+        font-weight: 700;
+      }
+      td.low {
+        color: #a35f00;
+        font-weight: 700;
+      }
+      code {
+        background: #eef1f5;
+        padding: 0.1rem 0.35rem;
+        border-radius: 4px;
+        font-size: 0.9em;
+      }
+      header code {
+        background: rgba(255, 255, 255, 0.16);
+        color: #fff;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      footer {
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.85rem;
+        padding: 1rem 1.5rem 2.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>App Check: Campus Customs Shop + Chatbot</h1>
+      <p>Live site tested at <code>http://127.0.0.1:5173</code> (React + Vite front end, FastAPI + PydanticAI backend, model GPT-6 Luna).</p>
+      <p>Tested October 7, 2026. Screenshots are from the running app in Chromium at 1440×900. Every check passed.</p>
+    </header>
+
+    <main>
+      <nav class="toc" aria-label="Checks">
+        <strong>Checks</strong>
+        <ol>
+          <li><a href="#check-1">Chat checks the inventory level of an item (honest stock and price from the DB)</a></li>
+          <li><a href="#check-2">Dynamic search-result cards appear after a category question (hoodies)</a></li>
+          <li><a href="#check-3">Usability feature from Problem 9: "In stock in my size" filter, sort, and low-stock badges</a></li>
+        </ol>
+      </nav>
+
+      <section class="check" id="check-1">
+        <h2>Check 1: Chat checks an item's inventory level (honest stock and price)</h2>
+        <span class="result">✓ Pass: chat answer matches the database exactly</span>
+        <p>
+          On the <strong>Boola Boola T Shirt</strong> product page, I asked the chat:
+          <em>"Do you have this in a large? How many are left in XL, and what does it cost?"</em>
+        </p>
+
+        <figure>
+          <img src="app_check_images/inventory.png" alt="Chat reply: sold out in L, 2 left in XL, $32.00, with a fact-check badge" />
+          <figcaption>
+            <strong>What this proves:</strong> the bot understood "this" meant the product on screen. It answered
+            <em>"sold out in L. There are 2 left in XL, and it costs $32.00"</em>, which matches the stock table
+            behind the chat (L = 0, XL = 2). The green <em>"✓ 1 price &amp; 1 stock count checked against live
+            inventory"</em> badge shows the server verified both numbers against the database before the reply was shown.
+          </figcaption>
+        </figure>
+
+        <figure>
+          <img src="app_check_images/inventory_db_truth.png" alt="Product page stock table: L sold out, XL low stock (2)" />
+          <figcaption>
+            <strong>Ground truth:</strong> the same product page, read straight from the <code>inventory</code>
+            table: L is <span style="color: var(--red); font-weight: 700">sold out (0)</span> and XL is
+            <span style="color: #a35f00; font-weight: 700">low stock (2)</span>. The chat's answer matches it exactly.
+          </figcaption>
+        </figure>
+
+        <p class="muted">
+          Direct SQLite query of <code>data/campus_customs.db</code> for <code>boola-boola-t-shirt</code>: price
+          <strong>32.0</strong>. Stock below.
+        </p>
+        <table>
+          <tr>
+            <th>Size</th>
+            <th>XS</th>
+            <th>S</th>
+            <th>M</th>
+            <th>L</th>
+            <th>XL</th>
+            <th>XXL</th>
+          </tr>
+          <tr>
+            <td>Quantity</td>
+            <td>12</td>
+            <td>12</td>
+            <td>15</td>
+            <td class="out">0</td>
+            <td class="low">2</td>
+            <td>20</td>
+          </tr>
+        </table>
+      </section>
+
+      <section class="check" id="check-2">
+        <h2>Check 2: Dynamic search-result cards after a category question</h2>
+        <span class="result">✓ Pass: 25 hoodie cards appeared on the page, and a chat-loaded card opens its detail page</span>
+        <p>On the Home page, I asked the chat: <em>"What hoodies do you have?"</em></p>
+
+        <figure>
+          <img src="app_check_images/dynamic_cards.png" alt="Home page filled with a 'From your chat: Hoodies' grid of product cards" />
+          <figcaption>
+            <strong>What this proves:</strong> the agent searched the catalogue and returned structured matches. The site
+            then filled the page with a <em>"✨ From your chat: Hoodies, 25 matches"</em> grid of product cards (image,
+            name, price, short description), with no page reload. All 25 hoodies in the database appear, not just the
+            three named in the reply. The chat bubble links back to the grid with <em>"25 Hoodies shown on the page ↑"</em>.
+          </figcaption>
+        </figure>
+
+        <figure>
+          <img src="app_check_images/dynamic_card_detail.png" alt="Detail page for District Vit Hoodie Vintage Bulldog opened from a chat card" />
+          <figcaption>
+            <strong>What this proves:</strong> clicking one of the chat-loaded cards (<em>District Vit Hoodie Vintage
+            Bulldog</em>) opened the same single-item page built in Problem 3: large image on the left, full description,
+            price, colors, and sizes on the right (<code>/products/district-vit-hoodie-vintage-bulldog</code>). The
+            chat results stay available in the <em>"Your chat picks: Hoodies (25)"</em> bar at the top.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="check" id="check-3">
+        <h2>Check 3: Usability feature (Problem 9): "In stock in my size" filter, sort, and low-stock badges</h2>
+        <span class="result">✓ Pass: only in-stock items shown, sorted by price, with honest low-stock badges</span>
+        <p>On the Products page, I picked <strong>Hoodies</strong>, <strong>In stock in: M</strong>, and <strong>Sort by: Price, low to high</strong>.</p>
+
+        <figure>
+          <img src="app_check_images/usability_size_filter.png" alt="Products page filtered to hoodies in stock in M, sorted by price, with an 'Only 5 left in M' badge" />
+          <figcaption>
+            <strong>What this proves:</strong> the silver "In stock in" bar hides everything sold out in the chosen size
+            (<em>"19 items · in stock in M"</em>, down from 25 hoodies), and the sort puts the $45.00 hoodies first. Cards
+            close to selling out carry an amber <em>"Only 5 left in M"</em> badge. Six cards on this page have one, from
+            live <code>inventory</code> counts (5 or fewer). Shoppers only see things they can actually buy in their size.
+          </figcaption>
+        </figure>
+      </section>
+    </main>
+
+    <footer>
+      Campus Customs Shop + Chatbot: Homework 4 app check. Images are in <code>app_check_images/</code>, linked with relative paths.
+    </footer>
+  </body>
+</html>

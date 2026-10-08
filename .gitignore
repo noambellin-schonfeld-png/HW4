@@ -1,0 +1,29 @@
+# Course data pack: local only, never commit the database or product images
+data/
+*.db
+*.db-journal
+*.zip
+
+# Secrets: commit .env.example only
+.env
+**/.env
+.env.*
+!.env.example
+
+# Python / Node build artifacts
+**/.venv/
+**/venv/
+**/__pycache__/
+*.pyc
+**/node_modules/
+**/dist/
+*.tsbuildinfo
+
+# Audit trail temp/backup files (the trail itself, output/audit_trail.json, is a deliverable)
+output/*.tmp
+output/audit_trail.corrupt-*.json
+
+# Local scratch
+joke.txt
+.DS_Store
+*.log
